@@ -6,30 +6,30 @@
     Version : 1.0
     Available : GitHub https://github.com/christoschronopoulos/automatic-plant-watering-system
     Notes   : This code is tested with an Arduino Mega and an itead.cc 1602 Shield with 6 buttons.
-              The menu is based on the code by Paul Siewert, retrieved at 
+              The menu is based on the code by Paul Siewert, retrieved at
               https://www.instructables.com/id/Arduino-Uno-Menu-Template/ .
-              The code allows scheduling of the operation of two 5V submersible pumps connected 
-              to Arduino through two 5V Relays. WTR INTERVAL (Watering interval) is the time 
+              The code allows scheduling of the operation of two 5V submersible pumps connected
+              to Arduino through two 5V Relays. WTR INTERVAL (Watering interval) is the time
               between two watering sessions, and it can be either in minutes or hours. This can
-              be set up in the SETUP menu item. In R1 and R2 DURATION menu items the duration of 
-              the pumps operation can be set up. The purpose of this is to allow for different 
-              watering schemes depending on the water needs of different plants. In the RELAYS STATE 
-              menu item the user can see the current state of the Relays and enable or disable them, 
+              be set up in the SETUP menu item. In R1 and R2 DURATION menu items the duration of
+              the pumps operation can be set up. The purpose of this is to allow for different
+              watering schemes depending on the water needs of different plants. In the RELAYS STATE
+              menu item the user can see the current state of the Relays and enable or disable them,
               by pressing the "Right" button (select between R1 and R2) and the "Up" / "Down" buttons
               (enable or disable).
     License : MIT License
               Copyright (c) 2020 Christos Chronopoulos
-              
+
               Permission is hereby granted, free of charge, to any person obtaining a copy
               of this software and associated documentation files (the "Software"), to deal
               in the Software without restriction, including without limitation the rights
               to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
               copies of the Software, and to permit persons to whom the Software is
               furnished to do so, subject to the following conditions:
-              
+
               The above copyright notice and this permission notice shall be included in all
               copies or substantial portions of the Software.
-              
+
               THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
               IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
               FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@
               LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
               OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
               SOFTWARE.
-    
+
  ***************************************************************************************/
 
 // You can have up to 10 menu items in the menuItems[] array below without having to change the base programming at all. Name them however you'd like. Beyond 10 items, you will have to add additional "cases" in the switch/case
@@ -60,9 +60,9 @@ int counterR2 = 0;
 
 // Relay Timer variables
 long startingTime = 0;
-long wateringInt = 3; //hours
-long r1Duration = 5; //seconds
-long r2Duration = 10; //seconds
+long wateringInt = 3; // minutes or hours. Selected in SETUP menu item
+long r1Duration = 5; // seconds
+long r2Duration = 10; // seconds
 long previousMillis = 0; // will store last time Relay was updated
 long previousR1Millis = 0;
 long previousR2Millis = 0;
@@ -72,6 +72,11 @@ int relay1Pin = 22;
 int relay2Pin = 28;
 volatile byte relay1State = HIGH;
 volatile byte relay2State = HIGH;
+
+//Backlight
+int backlightPin = 10;
+volatile byte backlightState = HIGH;
+long backlightOff = 60000; // in millis 60 seconds
 
 // Creates custom characters for the menu display
 byte downArrow[8] = {
@@ -94,17 +99,6 @@ byte upArrow[8] = {
   0b00100, //   *
   0b00100, //   *
   0b00100  //   *
-};
-
-byte menuCursor[8] = {
-  B01000, //  *
-  B00100, //   *
-  B00010, //    *
-  B00001, //     *
-  B00010, //    *
-  B00100, //   *
-  B01000, //  *
-  B00000  //
 };
 
 byte waterOn[8] = {
@@ -167,7 +161,7 @@ void setup() {
   lcd.clear();
 
   // Creates the byte for the custom characters
-  lcd.createChar(0, menuCursor);
+  //lcd.createChar(0, );
   lcd.createChar(1, upArrow);
   lcd.createChar(2, downArrow);
   lcd.createChar(3, waterOn);
@@ -180,6 +174,9 @@ void setup() {
   digitalWrite(relay1Pin, HIGH);
   pinMode(relay2Pin, OUTPUT);
   digitalWrite(relay2Pin, HIGH);
+
+  pinMode(backlightPin, OUTPUT);
+  digitalWrite(backlightPin, HIGH);
 }
 
 void loop() {
@@ -192,7 +189,7 @@ void loop() {
 // This function will generate the 2 menu items that can fit on the screen. They will change as you scroll through your menu. Up and down arrows will indicate your current menu position.
 void mainMenuDraw() {
   Serial.println(menuPage);
-  
+
   lcd.clear();
   lcd.setCursor(1, 0);
   lcd.print(menuItems[menuPage]);
@@ -225,21 +222,21 @@ void drawCursor() {
   if (menuPage % 2 == 0) {
     if (cursorPosition % 2 == 0) {  // If the menu page is even and the cursor position is even that means the cursor should be on line 1
       lcd.setCursor(0, 0);
-      lcd.write(byte(0));
+      lcd.write(char(0x3E));
     }
     if (cursorPosition % 2 != 0) {  // If the menu page is even and the cursor position is odd that means the cursor should be on line 2
       lcd.setCursor(0, 1);
-      lcd.write(byte(0));
+      lcd.write(char(0x3E));
     }
   }
   if (menuPage % 2 != 0) {
     if (cursorPosition % 2 == 0) {  // If the menu page is odd and the cursor position is even that means the cursor should be on line 2
       lcd.setCursor(0, 1);
-      lcd.write(byte(0));
+      lcd.write(char(0x3E));
     }
     if (cursorPosition % 2 != 0) {  // If the menu page is odd and the cursor position is odd that means the cursor should be on line 1
       lcd.setCursor(0, 0);
-      lcd.write(byte(0));
+      lcd.write(char(0x3E));
     }
   }
 }
@@ -628,14 +625,14 @@ void menuItem4() { // Function executes when you select the 4th item from main m
 
   if (relaySel == 0) {
     lcd.setCursor(0, 1);
-    lcd.write(byte(0));
+    lcd.write(char(0x3E));
     lcd.setCursor(6, 1);
     lcd.print(" ");
 
   }
   else {
     lcd.setCursor(6, 1);
-    lcd.write(byte(0));
+    lcd.write(char(0x3E));
     lcd.setCursor(0, 1);
     lcd.print(" ");
   }
@@ -656,12 +653,12 @@ void menuItem4() { // Function executes when you select the 4th item from main m
           lcd.setCursor(0, 1);
           lcd.print(" ");
           lcd.setCursor(6, 1);
-          lcd.write(byte(0));
+          lcd.write(char(0x3E));
         }
         else {
           relaySel = 0;
           lcd.setCursor(0, 1);
-          lcd.write(byte(0));
+          lcd.write(char(0x3E));
           lcd.setCursor(6, 1);
           lcd.print(" ");
         }
@@ -815,7 +812,7 @@ void menuItem5() { // Function executes when you select the 5th item from main m
 // ===================== WATERING MODE MENU ITEM =====================
 void menuItem6() { // Function executes when you select the 6th item from main menu
   int activeButton = 0;
-  
+
   startingTime = millis(); //Resets the starting time every time the user access the Watering Mode menu item
 
   lcd.clear();
@@ -840,6 +837,10 @@ void menuItem6() { // Function executes when you select the 6th item from main m
         button = 0;
         activeButton = 1;
         previousMillis = 0; // Resets the timer
+        
+        backlightState = HIGH;
+        digitalWrite(backlightPin, backlightState);
+        
         break;
     }
   }
@@ -950,6 +951,12 @@ void wateringMode() { //Function to operate the relays according to the values s
     previousMillis = startingTime;
   }
 
+  // Turn the backlight off
+  if (currentMillis - previousMillis >= backlightOff) {
+    backlightState = LOW;
+    digitalWrite(backlightPin, backlightState);
+  }
+
   if (currentMillis - previousMillis >= (wateringInt * 60000)) {
 
     counterR1 = 1;
@@ -1032,6 +1039,12 @@ void wateringMode1() { //Function to operate the relays according to the values 
 
   if (previousMillis == 0) {
     previousMillis = startingTime;
+  }
+
+  // Turn the backlight off
+  if (currentMillis - previousMillis >= backlightOff) {
+    backlightState = LOW;
+    digitalWrite(backlightPin, backlightState);
   }
 
   //if (currentMillis - previousMillis >= (wateringInt * 1000)) {
