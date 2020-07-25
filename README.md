@@ -68,6 +68,17 @@ lcd.createChar(5, timerBell);
 
 > Typically, up to eight characters of 5x8 pixels are supported (numbered 0 to 7).
 
+## LCD1602 Backlight
+In this particular LCD1602 shield, pin D10 is responsible for the backlight function. It is programmed to turn off after 60 seconds only when the user is in the WATERING MODE menu item. When the **_Left_** button is pressed, the main menu page appears and the backlight is automatically turned on again.
+
+Changes to the time of turning off can be made in the code at the **_long backlightOff_** variable. The value is in milliseconds and thus, turning off after 60 seconds is writen as: 60 seconds * 1000 millis = 60000 millis.
+```
+//Backlight
+int backlightPin = 10;
+volatile byte backlightState = HIGH;
+long backlightOff = 60000; // in millis 60 seconds
+```
+
 ## Menu
 The menu is based on the code by Paul Siewert, retrieved at https://www.instructables.com/id/Arduino-Uno-Menu-Template/ . It consists of six menu items as follows:
 - WTR INTERVAL
