@@ -803,10 +803,8 @@ void menuItem5() { // Function executes when you select the 5th item from main m
       case 4:  // This case will execute if the "back" button is pressed
         button = 0;
         lcd.clear();
-        lcd.setCursor(2, 0);
-        lcd.print("-- Values --");
-        lcd.setCursor(2, 1);
-        lcd.print("-- Saved! --");
+        lcd.setCursor(1, 0);
+        lcd.print("Values saved!");
         delay(1500);
         activeButton = 1;
         break;
