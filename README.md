@@ -11,7 +11,9 @@ code code code
  This can be set up in the SETUP menu item. In R1 and R2 DURATION menu items the duration of the pumps operation can be set up.  
 
 ## How to use it
-The code allows scheduling of the operation of two 5V submersible pumps connected to Arduino through two 5V Relays.
+The code allows scheduling of the operation of two 5V submersible pumps connected to Arduino through two 5V Relays. Due to the fact that the operation of the DC motors is controlled by the relays makes the code very flexible in its potential applications. It can be used to schedule and perform automated control of any device connected to the relays, such as lighting, household appliances etc. 
+
+> **IMPORTANT:** The relays must be suitable for the Input Voltage (e.g. 5V or 220V) to be used with defferent devices. For example, in this project 5V Relays are used together with 5V submersible pumps. However, if one would like to control a lamp or other household appliance **MUST** use 220V relays and with **EXTREME CAUTION**.
 
 ## User-defined characters
 For the purpose of this project I created new characters for the LCD 1602. 
@@ -106,7 +108,7 @@ When pressing the **_Left_** button, it returns to the main menu. It is importan
 ### R1 DURATION
 In R1 DURATION menu item the duration of the pump operation can be set up. In other words, is the duration that the Relay 1 stays ON. This actually means that the code can easily be used to handle the operation of any device connected to the relays, and not only the submersible pumps. The purpose of the different Relay duration variables is to allow for different watering schemes depending on the water needs of various plants.
 
-> **IMPORTANT:** The relays must be suitable for the Input Voltage (e.g. 5V or 220V) to be used with defferent devices. For example, in this project 5V Relays are used together with 5V submersible pumps. However, if one would like to control a lamp or other household appliance **MUST** use 220V relays with **EXTREME CAUTION**.
+> **IMPORTANT:** The relays must be suitable for the Input Voltage (e.g. 5V or 220V) to be used with defferent devices. For example, in this project 5V Relays are used together with 5V submersible pumps. However, if one would like to control a lamp or other household appliance **MUST** use 220V relays and with **EXTREME CAUTION**.
 
 The maximum duration is 30 seconds, which can be changed as desired by changing the **_constrain_** of the **_r1Duration_** variable in the code.
 
@@ -119,7 +121,7 @@ When pressing the **_Left_** button, it returns to the main menu. It is importan
 ### R2 DURATION
 In R2 DURATION menu item the duration of the pump operation can be set up. In other words, is the duration that the Relay 2 stays ON. This actually means that the code can easily be used to handle the operation of any device connected to the relays, and not only the submersible pumps. The purpose of the different Relay duration variables is to allow for different watering schemes depending on the water needs of various plants. 
 
-> **IMPORTANT:** The relays must be suitable for the Input Voltage (e.g. 5V or 220V) to be used with defferent devices. For example, in this project 5V Relays are used together with 5V submersible pumps. However, if one would like to control a lamp or other household appliance **MUST** use 220V relays with **EXTREME CAUTION**.
+> **IMPORTANT:** The relays must be suitable for the Input Voltage (e.g. 5V or 220V) to be used with defferent devices. For example, in this project 5V Relays are used together with 5V submersible pumps. However, if one would like to control a lamp or other household appliance **MUST** use 220V relays and with **EXTREME CAUTION**.
 
 The maximum duration is 30 seconds, which can be changed as desired by changing the **_constrain_** of the **_r2Duration_** variable in the code.
 
