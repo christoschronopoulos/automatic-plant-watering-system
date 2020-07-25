@@ -128,6 +128,8 @@ The WATERING MODE menu item shows the current state of the relays (and hence, of
 ## Schematic
 ![Schematic](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/schematic.png)
 
+The Fritzing sketch file is included in the repository and can be downloaded [here](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/automatic-plant-watering-system_Fritzing.fzz)
+
 ## License
 
 MIT License
