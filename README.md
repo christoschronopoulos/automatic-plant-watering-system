@@ -1,4 +1,5 @@
 # automatic-plant-watering-system
+![image](https://github.com/christoschronopoulos/automatic-plant-watering-system/image.jpg)
 ## Installation
 The code is tested with an Arduino Mega and an itead.cc LCD 1602 Shield with 6 buttons, and can be installed to the board via the Arduino IDE software [download](https://www.arduino.cc/en/main/software).
 
