@@ -90,6 +90,8 @@ The menu is based on the code by Paul Siewert, retrieved at https://www.instruct
 - SETUP
 - WATERING MODE
 
+![demo](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/demo.gif)
+
 ### WTR INTERVAL
 WTR INTERVAL (Watering interval) is the time between two watering sessions, and it can be either in minutes (1-59) or hours (1-9). The reason I included the **_minutes_** function is purely for testing purposes. However, there might be cases that enabling the relays that often makes perfect sense. Changing from minutes to hours and vice versa can be set up in the SETUP menu item.
 
