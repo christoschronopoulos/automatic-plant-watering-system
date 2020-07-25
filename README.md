@@ -65,7 +65,7 @@ In SETUP one can change the time interval between the watering sessions from min
 When pressing the **_Left_** button, it returns to the main menu. It is important to note that the value changes are saved!
 
 ### WATERING MODE
-The WATERING MODE menu item shows the current state of the relays (and hence, of the pumps or any connected device)
+The WATERING MODE menu item shows the current state of the relays (and hence, of the pumps or any connected device) and the remaining time to the next watering session. If the user exits the WATERING MODE the timer restarts. Therefore, on must remain in this menu item without exiting to succesfully schedule and perform the automated watering. This means that it is recommended all the required settings to be set before entering the WATERING MODE.
 
 ## Schematic
 ![Schematic](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/schematic.png)
