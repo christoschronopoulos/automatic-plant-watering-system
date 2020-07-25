@@ -7,7 +7,7 @@ code code code
 ```
 
 ## Schematic
-![Schematic](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/automatic-plant-watering-system_Fritzing.png)
+![Schematic](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/schematic.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
