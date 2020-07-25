@@ -14,6 +14,8 @@ The code allows scheduling of the operation of two 5V submersible pumps connecte
 ## User-defined characters
 For the purpose of this project I created new characters for the LCD 1602. 
 
+> The **_bytes_** of each special user-defined character (code below) must be placed before the **void setup()**.
+
 ### Relay/Pump Enabled icon
 ![waterOn](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-waterOn.png)
 ```
@@ -28,6 +30,7 @@ byte waterOn[8] = {
   B00000  //
 };
 ```
+### Relay/Pump Disabled icon
 ![waterOff](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-waterOff.png)
 ```
 byte waterOff[8] = {
@@ -41,6 +44,7 @@ byte waterOff[8] = {
   B00000  //
 };
 ```
+### Timer Bell icon
 ![timerBell](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-timerBell.png)
 ```
 byte timerBell[8] = {
@@ -55,11 +59,14 @@ byte timerBell[8] = {
 };
 ```
 
+The characters have to be created in **void setup()** by using the **_lcd.createchar()_** function as follows:
 ```
 lcd.createChar(3, waterOn);
 lcd.createChar(4, waterOff);
 lcd.createChar(5, timerBell);
 ```
+
+> Typically, up to eight characters of 5x8 pixels are supported (numbered 0 to 7).
 
 ## Menu
 The menu is based on the code by Paul Siewert, retrieved at https://www.instructables.com/id/Arduino-Uno-Menu-Template/ . It consists of six menu items as follows:
