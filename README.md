@@ -10,6 +10,57 @@ code code code
 
 ## How to use it
 The code allows scheduling of the operation of two 5V submersible pumps connected to Arduino through two 5V Relays.
+
+## User-defined characters
+For the purpose of this project I created new characters for the LCD 1602. 
+
+### Relay/Pump Enabled icon
+![waterOn](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-waterOn.png)
+```
+byte waterOn[8] = {
+  B00100, //   *
+  B00100, //   *
+  B01110, //  ***
+  B01010, //  * *
+  B10111, // * ***
+  B10111, // * ***
+  B01110, //  ***
+  B00000  //
+};
+```
+![waterOff](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-waterOff.png)
+```
+byte waterOff[8] = {
+  B00000, //
+  B00000, //
+  B10001, // *   *
+  B01010, //  * *
+  B00100, //   *
+  B01010, //  * *
+  B10001, // *   *
+  B00000  //
+};
+```
+![timerBell](https://github.com/christoschronopoulos/automatic-plant-watering-system/blob/master/user-char-timerBell.png)
+```
+byte timerBell[8] = {
+  B00100, //   *
+  B01110, //  ***
+  B01110, //  ***
+  B01110, //  ***
+  B11111, // *****
+  B00000, //
+  B00100, //   *
+  B00000  //
+};
+```
+
+```
+lcd.createChar(3, waterOn);
+lcd.createChar(4, waterOff);
+lcd.createChar(5, timerBell);
+```
+
 ## Menu
 The menu is based on the code by Paul Siewert, retrieved at https://www.instructables.com/id/Arduino-Uno-Menu-Template/ . It consists of six menu items as follows:
 - WTR INTERVAL
